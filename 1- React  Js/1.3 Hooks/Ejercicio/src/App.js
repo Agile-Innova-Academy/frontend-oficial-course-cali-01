@@ -52,7 +52,6 @@ function App() {
           </Toolbar>
         </AppBar>
       </Box>
-      <h1 id="" class="">Hola, Clase</h1>
       {/* {currrentComponent === "Viewer" ? <Video /> : <Nombre nombre="Sebastian" apellido="Luna" estudiantes={estudiantes} />} */}
 
       {currrentComponent === "Viewer" && <Video />}

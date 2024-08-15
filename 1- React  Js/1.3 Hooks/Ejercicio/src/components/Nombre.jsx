@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import styles from './nombre.module.css'
 import style from '../styles/style.css'
 import { BotonGrueso } from '../styles/globalStyles'
+import useForm from '../hooks/useForm'
 
 const Nombre = ({ nombre, apellido, estudiantes }) => {
   const miBoton1 = {
@@ -33,22 +34,22 @@ const Nombre = ({ nombre, apellido, estudiantes }) => {
 
   // ---------------- Ejemplo useState para Formulario --------------
 
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
+  // const [name, setName] = useState('')
+  // const [email, setEmail] = useState('')
 
-  const handleSubmit = e => {
-    e.preventDefault()
-    alert(`Bienvenido usuario: ${name}, con correo ${email}`)
-  }
+  // const handleSubmit = e => {
+  //   e.preventDefault()
+  //   alert(`Bienvenido usuario: ${name}, con correo ${email}`)
+  // }
 
-  const handleName = e => {
-    console.log(e)
-    setName(e.target.value)
-  }
+  // const handleName = e => {
+  //   console.log(e)
+  //   setName(e.target.value)
+  // }
 
-  const handleMail = e => {
-    setEmail(e.target.value)
-  }
+  // const handleMail = e => {
+  //   setEmail(e.target.value)
+  // }
 
   // ---------------- Ejemplo useRef para actualizar imagen --------------
   const girlsImg = useRef(null)
@@ -59,29 +60,39 @@ const Nombre = ({ nombre, apellido, estudiantes }) => {
       'https://www.tvtime.com/_next/image?url=https%3A%2F%2Fartworks.thetvdb.com%2Fbanners%2Fposters%2F79472-1.jpg&w=640&q=75'
   }
 
-
-  // ---------------- Ejemplo useEffect 
+  // ---------------- Ejemplo useEffect
 
   useEffect(() => {
     document.title = 'Home'
-
   }, [])
-  
 
   // ---------------- Ejemplo contador automático --------------
-  const [contador, setContador] = useState(0);
-  const interval = useRef(null);
+  const [contador, setContador] = useState(0)
+  const interval = useRef(null)
 
   useEffect(() => {
     interval.current = setInterval(() => {
-      setContador(contador + 1);
-    }, 1000);
+      setContador(contador + 1)
+    }, 1000)
 
     return () => {
-      clearInterval(interval.current);
-    };
+      clearInterval(interval.current)
+    }
   })
-  
+
+  // ---------------- Ejemplo hook useForm para Formularios --------------
+  const [formValues, handleInputChange, reset] = useForm({
+    name: '',
+    email: ''
+  })
+
+  const { name, email } = formValues
+
+  const handleSubmit = e => {
+    e.preventDefault()
+    alert(`Bienvenido usuario: ${name}, con correo ${email}`)
+    reset()
+  }
 
   return (
     <div>
@@ -117,8 +128,9 @@ const Nombre = ({ nombre, apellido, estudiantes }) => {
             <label>Nombre:</label>
             <input
               type='text'
-              value={name}
-              onChange={handleName}
+              name='name'
+              value={formValues.name}
+              onChange={handleInputChange}
               placeholder='Ingrese nombre'
             />
           </div>
@@ -126,8 +138,9 @@ const Nombre = ({ nombre, apellido, estudiantes }) => {
             <label>Email:</label>
             <input
               type='email'
-              value={email}
-              onChange={handleMail}
+              name='email'
+              value={formValues.email}
+              onChange={handleInputChange}
               placeholder='Ingrese correo'
             />
           </div>

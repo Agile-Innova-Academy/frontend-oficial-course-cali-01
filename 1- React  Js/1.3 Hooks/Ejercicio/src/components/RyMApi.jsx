@@ -1,49 +1,100 @@
 import React, { useEffect, useState } from 'react'
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
+import Card from '@mui/material/Card'
+import CardActions from '@mui/material/CardActions'
+import CardContent from '@mui/material/CardContent'
+import CardMedia from '@mui/material/CardMedia'
+import Button from '@mui/material/Button'
+import Typography from '@mui/material/Typography'
+import useFetch from '../hooks/useFetch'
+import {
+  Box,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  InputAdornment,
+  Pagination,
+  Stack,
+  TextField
+} from '@mui/material'
+import Search from '@mui/icons-material/Search'
+import CharacterCard from './CharacterCard'
 
 const RyMApi = () => {
-  const [data, setData] = useState([])
+  const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState({});
 
-  useEffect(() => {
-    fetch('https://rickandmortyapi.com/api/character')
-      .then(response => response.json())
-      .then(data => {
-        console.log(data)
-        setData(data.results)
-      })
-  }, [])
+  const [page, setPage] = useState(1)
+  const [searchTerm, setSearchTerm] = useState('')
+  const data = useFetch(
+    `https://rickandmortyapi.com/api/character/?page=${page}&name=${searchTerm}`
+  )
+
+  const handleClickOpen = (id) => {
+    setOpen(true);
+    setSelected(data?.results.find(item => item.id === id));
+  };
+
+  const handleClose = () => {
+    console.log('cerrar')
+    setOpen(false);
+  };
+
 
   return (
-    <div style={{display: 'flex', flexWrap: 'wrap', gap: '1rem'}}>
-      {data?.map(item => {
-        return (
-          <Card sx={{ maxWidth: 345 }}>
-            <CardMedia
-              sx={{ height: 140 }}
-              image={item.image}
-              title='green iguana'
-            />
-            <CardContent>
-              <Typography gutterBottom variant='h5' component='div'>
-                {item.name}
-              </Typography>
-              <Typography variant='body2' color='text.secondary'>
-                {item.species}
-              </Typography>
-            </CardContent>
-            <CardActions>
-              <Button size='small'>Share</Button>
-              <Button size='small'>Learn More</Button>
-            </CardActions>
-          </Card>
-        )
-      })}
-    </div>
+    <>
+      <Box justifyContent='center' display='flex' my={4}>
+        <TextField
+          id='input-with-icon-textfield'
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position='start'>
+                <Search />
+              </InputAdornment>
+            )
+          }}
+          placeholder='Buscar personaje'
+          variant='outlined'
+          onInput={({ target }) => {
+            setSearchTerm(target.value)
+            setPage(1)
+          }}
+        />
+        
+      </Box>
+      <Box justifyContent='center' display='flex' my={4}>
+        <Stack spacing={2}>
+          <Pagination
+            count={data?.info.pages}
+            color='primary'
+            onChange={(e, value) => {
+              setPage(value)
+            }}
+          />
+        </Stack>
+      </Box>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
+        {data?.results.map(item => {
+          return (
+            <CharacterCard item={item} handleClickOpen={handleClickOpen}/>
+          )
+        })}
+      </div>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogContent>
+          {selected && <CharacterCard item={selected || {}} handleClickOpen={handleClickOpen}/>}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Volver</Button>
+        </DialogActions>
+      </Dialog>
+    </>
   )
 }
 
