@@ -1,5 +1,4 @@
 import { useState } from "react";
-import Details from "../components/Details";
 import Footer from "../components/Footer";
 import Home from "../components/Home";
 import Nav from "../components/Nav";
