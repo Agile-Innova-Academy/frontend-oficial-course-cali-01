@@ -31,7 +31,7 @@ const Home = () => {
     <img src="https://res.cloudinary.com/danimel/image/upload/v1649345661/plantas-clasificacion-e1569789109898_n94bdu.jpg" alt=""/>
       </div>
     </Carousel>
-    <Link to='/e' ><button>Ir A ver</button></Link>
+    <Link to='/mod' ><button>Ir A ver</button></Link>
   </div>
   )
 }

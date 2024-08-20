@@ -1,0 +1,12 @@
+{
+  "planta": [
+    {
+      "id": 1,
+      "nombre": "Planta",
+      "tipo": "Planta",
+      "color": "Verde",
+      "altura": "200 cm",
+      "foto": "https://res.cloudinary.com/danimel/image/upload/v1724160101/cali-01/zsamjmznrzbktsf6uzi2.jpg"
+    }
+  ]
+}

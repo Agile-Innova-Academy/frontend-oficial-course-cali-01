@@ -2,18 +2,25 @@ import { Input, Select } from "antd";
 import React from "react";
 import useForm from "../hooks/useForm";
 import { uploadFile } from "../helpers/uploadFile";
+import { postData } from "../helpers/Peticiones";
+import Swal from "sweetalert2";
 
 const Register = () => {
-  const [dataForm, handleChange, handleSelect, reset, handleChangeImagen] =
-    useForm({
-      nombre: "",
-      tipoPlan: "",
-      color: "",
-      altura: "",
-      imagen: "",
-    });
+  const [
+    dataForm,
+    handleChange,
+    handleSelect,
+    reset,
+    handleChangeImagen,
+  ] = useForm({
+    nombre: "",
+    tipoPlan: "",
+    color: "",
+    altura: "",
+    imagen: "",
+  });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("lo que trae", dataForm);
 
@@ -26,6 +33,30 @@ const Register = () => {
       foto: dataForm.imagen,
     };
     console.log("La planta es: ", objPlanta);
+    const resp = await postData(objPlanta);
+    switch (resp) {
+      case 201:
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Creada exitosamente",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        break;
+      case 404:
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Oops...",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        break;
+      default:
+        break;
+    }
+
     reset();
   };
 
@@ -69,7 +100,12 @@ const Register = () => {
           onChange={handleChange}
           value={dataForm.altura}
         />
-        <input type="file" name="imagen" onChange={handleUpload} />
+        <input
+          accept="image/*"
+          type="file"
+          name="imagen"
+          onChange={handleUpload}
+        />
         <button type="submit">Guardar</button>
       </form>
     </div>
