@@ -1,10 +1,13 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import styles from './nombre.module.css'
 import style from '../styles/style.css'
 import { BotonGrueso } from '../styles/globalStyles'
 import useForm from '../hooks/useForm'
+import { UserContext } from '../context/userContext'
 
 const Nombre = ({ nombre, apellido, estudiantes }) => {
+  const { userInfo, setUserInfo } = useContext(UserContext)
+
   const miBoton1 = {
     backgroundColor: 'green',
     color: 'white',
@@ -91,6 +94,7 @@ const Nombre = ({ nombre, apellido, estudiantes }) => {
   const handleSubmit = e => {
     e.preventDefault()
     alert(`Bienvenido usuario: ${name}, con correo ${email}`)
+    setUserInfo(formValues);
     reset()
   }
 

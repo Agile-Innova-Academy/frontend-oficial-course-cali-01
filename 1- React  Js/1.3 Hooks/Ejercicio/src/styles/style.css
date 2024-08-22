@@ -1,5 +1,13 @@
-
 .darkMode {
   background-color: #000;
   color: #fff;
+}
+
+a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.active {
+  background-color: black;
 }

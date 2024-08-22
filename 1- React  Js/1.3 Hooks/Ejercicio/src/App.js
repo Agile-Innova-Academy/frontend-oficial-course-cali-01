@@ -1,15 +1,10 @@
 import { useState } from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
 import Nombre from "./components/Nombre";
 import Video from './components/Video';
 import RyMApi from './components/RyMApi';
 import CountDown from './components/CountDown';
+import NavBar from './containers/NavBar';
+import CallbackMemo from './components/CallbackMemo';
 
 function App() {
   const estudiantes = [
@@ -28,32 +23,16 @@ function App() {
 
   const [currrentComponent, setCurrrentComponent] = useState("")
 
+  function cambiarComponente (value) {
+    setCurrrentComponent(value)
+  }
+
   return (
     <>
-      <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static">
-          <Toolbar>
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              sx={{ mr: 2 }}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              News
-            </Typography>
-            <Button onClick={() => {setCurrrentComponent("Viewer")}} color="inherit">Viewer</Button>
-            <Button onClick={() => {setCurrrentComponent("Home")}} color="inherit">Home</Button>
-            <Button onClick={() => {setCurrrentComponent("R&M")}} color="inherit">Rick & Morty</Button>
-            <Button onClick={() => {setCurrrentComponent("CountDown")}} color="inherit">CountDown</Button>
-          </Toolbar>
-        </AppBar>
-      </Box>
+      <NavBar cambiarComponente={cambiarComponente} />
       {/* {currrentComponent === "Viewer" ? <Video /> : <Nombre nombre="Sebastian" apellido="Luna" estudiantes={estudiantes} />} */}
 
+      {currrentComponent === "memoize" && <CallbackMemo />}
       {currrentComponent === "Viewer" && <Video />}
       {currrentComponent === "Home" && <Nombre nombre="Sebastian" apellido="Luna" estudiantes={estudiantes} />}
       {currrentComponent === "R&M" && <RyMApi />}

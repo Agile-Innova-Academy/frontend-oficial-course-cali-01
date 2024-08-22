@@ -15,7 +15,7 @@ const CharacterCard = ({item, handleClickOpen}) => {
       sx={{ maxWidth: 345, width: '12rem' }}
       onClick={() => {handleClickOpen(item.id)}}
     >
-      <CardMedia sx={{ height: 140 }} image={item.image} title='green iguana' />
+      <CardMedia sx={{ height: 140 }} image={item.image} title={item.name} />
       <CardContent>
         <Typography gutterBottom variant='h5' component='div'>
           {item.name}

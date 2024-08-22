@@ -1,18 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import Card from '@mui/material/Card'
-import CardActions from '@mui/material/CardActions'
-import CardContent from '@mui/material/CardContent'
-import CardMedia from '@mui/material/CardMedia'
 import Button from '@mui/material/Button'
-import Typography from '@mui/material/Typography'
 import useFetch from '../hooks/useFetch'
 import {
   Box,
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
-  DialogTitle,
   InputAdornment,
   Pagination,
   Stack,
@@ -20,6 +13,7 @@ import {
 } from '@mui/material'
 import Search from '@mui/icons-material/Search'
 import CharacterCard from './CharacterCard'
+import { Link } from 'react-router-dom'
 
 const RyMApi = () => {
   const [open, setOpen] = useState(false);
@@ -77,7 +71,9 @@ const RyMApi = () => {
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
         {data?.results.map(item => {
           return (
-            <CharacterCard item={item} handleClickOpen={handleClickOpen}/>
+            <Link to={`/rick_morty/${item.id}`}>
+              <CharacterCard item={item} handleClickOpen={handleClickOpen}/>
+            </Link>
           )
         })}
       </div>
