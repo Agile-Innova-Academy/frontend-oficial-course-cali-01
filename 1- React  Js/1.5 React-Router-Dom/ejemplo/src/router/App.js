@@ -1,28 +1,51 @@
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import Home from "../containers/Home";
-import Register from "../containers/Register";
-import NavBar from "../components/NavBar";
-import Footer from "../components/Footer";
-import Error from "../components/Error";
-import List from "../containers/List";
-import EditPlanta from "../containers/EditPlanta";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Login from "../containers/Login";
+import { AuthContext } from "../context/AuthsContext";
+import { useReducer } from "react";
+import AuthReducer from "../useReducer/reducers/reducerUser";
+import PublicRouter from "./PublicRouter";
+import PrivateRouter from "./PrivateRouter";
+import DashboardRouter from "./DashboardRouter";
 
+const init = () => {
+  return { logged: false };
+};
 function App() {
+  const [state, dispatch] = useReducer(AuthReducer, {}, init);
   return (
-    <>
+    <AuthContext.Provider value={{ state, dispatch }}>
       <BrowserRouter>
-        <NavBar />
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/list" element={<List />} />
-          <Route path="/edit/:id" element={<EditPlanta />} />
-          <Route path="/e" element={<Error />} />
-          <Route path="*" element={<Navigate to="/" />} />
+          {/* Públicas */}
+          <Route
+            path="/login"
+            element={
+              <PublicRouter>
+                <Login />
+              </PublicRouter>
+            }
+          />
+          {/* <Route
+            path="/register"
+            element={
+              <PublicRouter>
+                <RegisterUser />
+              </PublicRouter>
+            }
+          /> */}
+
+          {/* Privadas */}
+          <Route
+            path="/*"
+            element={
+              <PrivateRouter>
+                <DashboardRouter />
+              </PrivateRouter>
+            }
+          />
         </Routes>
-        <Footer />
       </BrowserRouter>
-    </>
+    </AuthContext.Provider>
   );
 }
 

@@ -4,6 +4,7 @@ import useForm from "../hooks/useForm";
 import { uploadFile } from "../helpers/uploadFile";
 import { postData } from "../helpers/Peticiones";
 import Swal from "sweetalert2";
+import { DivForm, FormStyled } from "../Styles/Styled";
 
 const Register = () => {
   const [
@@ -66,8 +67,8 @@ const Register = () => {
     uploadFile(file).then((resp) => handleChangeImagen(resp));
   };
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
+    <DivForm>
+      <FormStyled onSubmit={handleSubmit}>
         <Input
           name="nombre"
           placeholder="Nombre de la Planta"
@@ -107,8 +108,8 @@ const Register = () => {
           onChange={handleUpload}
         />
         <button type="submit">Guardar</button>
-      </form>
-    </div>
+      </FormStyled>
+    </DivForm>
   );
 };
 

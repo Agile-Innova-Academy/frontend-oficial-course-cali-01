@@ -1,10 +1,13 @@
 import { Menu } from 'antd'
 import { Header } from 'antd/es/layout/layout'
-import React from 'react'
+import React, { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { AuthContext } from '../context/AuthsContext'
+import { actionLogout } from '../useReducer/action/actionsUser'
 
 const NavBar = () => {
     const navigate = useNavigate()
+    const {dispatch} = useContext(AuthContext)
     const items = [        
              {
         key: '1',
@@ -26,6 +29,17 @@ const NavBar = () => {
         label: 'Listar',
           pathname: '/list',
         onClick: ()=> navigate('/list')
+     
+     
+      },
+                    {
+        key: '4',
+        label: 'Logout',
+          pathname: '/login',
+        onClick: ()=> {
+          console.log("Cerrando sesión")
+          dispatch(actionLogout());
+          navigate('/login');}
      
      
       },
