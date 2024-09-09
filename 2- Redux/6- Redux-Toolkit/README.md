@@ -68,7 +68,7 @@ Envuelve tu aplicación con el Provider para que React pueda acceder al estado g
 
         export default Root;
 
- `5. Despachar Acciones y Leer el Estad`o
+ `5. Despachar Acciones y Leer el Estado`
 Usa useDispatch para despachar acciones y useSelector para leer el estado en tus componentes. 🔄
 
 
