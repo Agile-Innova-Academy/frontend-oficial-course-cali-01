@@ -1,20 +1,18 @@
 import React from 'react'
 import useForm from '../../hooks/useForm'
-import { mailRegister, setUser } from '../redux/slices/userSlice'
+import { mailLogin, setUser } from '../redux/slices/userSlice'
 import { useDispatch } from 'react-redux'
 
-const RegisterForm = () => {
-  const dispatch = useDispatch()
+const LoginForm = () => {
+  const dispatch = useDispatch();
   const [formValues, handleInputChange, reset] = useForm({
-    name: '',
     email: '',
-    photoURL: '',
     password: ''
   })
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    await mailRegister(formValues).then((response) => {
+    await mailLogin(formValues.email, formValues.password).then((response) => {
       dispatch(setUser(response))
     })
 
@@ -25,16 +23,6 @@ const RegisterForm = () => {
     <section>
       <form onSubmit={handleSubmit}>
         <div>
-          <label>Nombre:</label>
-          <input
-            type='text'
-            name='name'
-            value={formValues.name}
-            onChange={handleInputChange}
-            placeholder='Ingrese nombre'
-          />
-        </div>
-        <div>
           <label>Email:</label>
           <input
             type='email'
@@ -42,16 +30,6 @@ const RegisterForm = () => {
             value={formValues.email}
             onChange={handleInputChange}
             placeholder='Ingrese correo'
-          />
-        </div>
-        <div>
-          <label>Photo url:</label>
-          <input
-            type='text'
-            name='photoURL'
-            value={formValues.photoURL}
-            onChange={handleInputChange}
-            placeholder='Ingrese una url de imagen'
           />
         </div>
         <div>
@@ -64,10 +42,10 @@ const RegisterForm = () => {
             placeholder='Ingrese su contraseña'
           />
         </div>
-        <button type='submit'>Registrar</button>
+        <button type='submit'>Ingresar</button>
       </form>
     </section>
   )
 }
 
-export default RegisterForm
+export default LoginForm

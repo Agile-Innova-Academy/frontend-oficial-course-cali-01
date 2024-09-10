@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "firebase/auth";
 import { auth, facebookProvider, googleProvider } from "../../firebase/firebaseConfig";
 
 const initialState = {
@@ -29,21 +29,31 @@ export default userReducer.reducer
 
 // Actions (funciones)
 
-export const mailRegister = async (email, password) => {
+export const mailRegister = async ({ name, email, photoURL, password }) => {
   try {
     const response = await createUserWithEmailAndPassword(auth, email, password)
     if (response) {
-      return response.user
+      await updateProfile(response.user, {
+        displayName: name,
+        photoURL: photoURL || "",
+      })
+      return {
+        displayName: response.user.displayName,
+        email: response.user.email,
+        photoURL: response.user.photoURL,
+        isAuthenticated: true,
+      }
     }
   } catch (error) {
     console.error("Hubo un error: " + error)
   }
 }
 
-export const mailLogin = async () => {
+export const mailLogin = async (email, password) => {
   try {
     const response = await signInWithEmailAndPassword(auth, email, password)
     if (response) {
+      console.log(response)
       return {
         displayName: response.user.displayName,
         email: response.user.email,
@@ -89,15 +99,10 @@ export const facebookLogin = async () => {
 }
 
 export const logout = async () => {
-  console.log("En action logout")
   try {
-    const response = await signOut(auth)
-    if (response) {
-      console.log("Logout efectuado" + response)
-      return response
-    }
+    await signOut(auth)
   } catch (error) {
-    
+    console.error("Hubo un error al hacer logout: " + error)
   }
 }
 

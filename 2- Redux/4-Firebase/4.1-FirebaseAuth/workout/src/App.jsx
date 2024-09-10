@@ -12,9 +12,10 @@ import {
 import { onAuthStateChanged } from 'firebase/auth'
 import { auth } from './firebase/firebaseConfig'
 import RegisterForm from './components/RegisterForm'
+import LoginForm from './components/Login'
+import Movies from './components/Movies'
 
 function App () {
-  const [count, setCount] = useState(0)
   const dispatch = useDispatch()
   const user = useSelector(store => store.user)
 
@@ -50,17 +51,21 @@ function App () {
   }
 
   useEffect(() => {
-    const validateUserState = onAuthStateChanged(auth, () => {
+    const validateUserState = onAuthStateChanged(auth, user => {
       if (user) {
-        console.log('User is signed in:', user)
-      } else {
-        console.log('No user is signed in')
+        dispatch(
+          setUser({
+            displayName: user.displayName,
+            email: user.email,
+            photoURL: user.photoURL,
+            isAuthenticated: true
+          })
+        )
       }
     })
 
-    
     return () => validateUserState()
-  }, [dispatch])
+  }, [dispatch, user])
 
   return (
     <>
@@ -72,22 +77,40 @@ function App () {
           <img src={reactLogo} className='logo react' alt='React logo' />
         </a>
       </div>
-      <h1>Bienvenido, {user.displayName}</h1>
-      <h2>Con correo: {user.email}</h2>
-      <img
-        src={user.photoURL}
-        alt='User profile image'
-        referrerPolicy='no-referrer'
-      />
+
+      {user.isAuthenticated && (
+        <>
+          <h1>Bienvenido, {user.displayName}</h1>
+          <h2>Con correo: {user.email}</h2>
+          <img
+            src={user.photoURL}
+            alt='User profile image'
+            referrerPolicy='no-referrer'
+            width='10%'
+          />
+        </>
+      )}
+
       <button onClick={() => handleAuth('google')}>Login Google</button>
       <button onClick={() => handleAuth('facebook')}>Login Facebook</button>
       <button onClick={() => handleAuth('logout')}>Logout</button>
 
+      <hr />
+      <div>
+        <div>
+          <h1>Registrate</h1>
+          <RegisterForm />
+        </div>
+
+        <div>
+          <h1>Iniciar sesión</h1>
+          <LoginForm />
+        </div>
+      </div>
 
       <hr />
-      <h1>Registrate</h1>
-      <RegisterForm />
-      
+      <h1>Películas</h1>
+      <Movies />
     </>
   )
 }
