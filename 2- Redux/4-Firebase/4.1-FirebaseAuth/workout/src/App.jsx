@@ -52,12 +52,14 @@ function App () {
 
   useEffect(() => {
     const validateUserState = onAuthStateChanged(auth, user => {
+      console.log(user)
       if (user) {
         dispatch(
           setUser({
             displayName: user.displayName,
             email: user.email,
             photoURL: user.photoURL,
+            uid: user.uid,
             isAuthenticated: true
           })
         )

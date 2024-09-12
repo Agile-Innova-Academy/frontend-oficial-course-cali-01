@@ -82,7 +82,7 @@ export const deleteAsync = async (id) => {
     const datos = await getDocs(movieQuery);
 
     datos.forEach((item) => {
-      deleteDoc(doc(firestore, "peliculas", item.id))
+      item.isDeletable ? deleteDoc(doc(firestore, "peliculas", item.id)): alert("No puede eliminar este item")
     })
   } catch (error) {
     console.error(error);
