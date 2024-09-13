@@ -5,6 +5,7 @@ interface valuesForm {
   email: string;
   name: string
 }
+
 const Register = () => {
 
     const { dataForm, handleChange, reset }= useForm<valuesForm>({

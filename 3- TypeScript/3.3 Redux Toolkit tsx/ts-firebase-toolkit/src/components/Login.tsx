@@ -1,5 +1,5 @@
 import { signInWithPopup } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { auth, google } from "../firebase/firebaseConfig";
 import { useDispatch } from "react-redux";
 import { login } from "../redux/slices/loginSlice";
@@ -27,6 +27,7 @@ const Login = () => {
   return (
     <div>
       <button onClick={handleGoogle}>Google</button>
+      <Link to="/register">Registrar</Link>
     </div>
   );
 };

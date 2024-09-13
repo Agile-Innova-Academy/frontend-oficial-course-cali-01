@@ -1,4 +1,4 @@
-import { addDoc, collection, getDocs } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDocs, updateDoc } from "firebase/firestore";
 import { db } from "../firebase/firebaseConfig";
 
 const colletionProduct = collection(db, "productos");
@@ -17,3 +17,26 @@ return data.docs.map((doc) => ({
 }))
 
 };
+
+
+export const deleteProduct =async(id: string )=>{
+  try{
+   const productDelDoc = doc(db, "productos", id);
+   await deleteDoc(productDelDoc);
+  }
+  catch(error){
+    console.log(error);
+  }
+}
+
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const updateProduct = async (id: string, datosUpdate: any)=>{
+  try {
+    const productUpdateDoc = doc(db, "productos", id);
+    await updateDoc(productUpdateDoc, datosUpdate);
+   
+  } catch (error) {
+    console.log(error);
+  }
+}

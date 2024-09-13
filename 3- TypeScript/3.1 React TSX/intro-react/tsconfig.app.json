@@ -20,5 +20,5 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"]
+  "include": ["src", "../../3.3 Redux Toolkit tsx/ts-firebase-toolkit/src/components/RegisterFormik.tsx"]
 }

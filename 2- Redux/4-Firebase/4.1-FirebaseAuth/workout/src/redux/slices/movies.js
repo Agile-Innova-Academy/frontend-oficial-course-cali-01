@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit"
 import { auth, firestore } from "../../firebase/firebaseConfig";
 import { addDoc, collection, deleteDoc, doc, getDocs, query, updateDoc, where } from "firebase/firestore";
 
+
 const initialState = {
   movies: []
 }
