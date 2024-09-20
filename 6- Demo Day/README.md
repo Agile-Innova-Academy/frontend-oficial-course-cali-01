@@ -45,7 +45,7 @@ Todo esto usando markdown
 >- Guía de estilos
 >- Landing Page del producto
 >- Diseño responsive
->- Usar Redux 
+>- Usar Redux ó Zustand
 >- Autenticación con Google y Facebook
 >- Enrutamiento dinámico con protección de rutas
 >- 3 Crud con Firestore
