@@ -1,10 +1,14 @@
 import {
+  getApi,
+  getPromise,
   isLoggenIn,
   mayorEdad,
   nombre,
   objUser,
   saludar,
+  userRegister,
 } from "../../components/TiposDatos";
+import { arraysdataUser } from "../../data/data";
 
 describe("Reliazar pruebas a los Tipos de datos", () => {
   //-----------bolean-----------//
@@ -62,11 +66,51 @@ describe("Reliazar pruebas a los Tipos de datos", () => {
     expect(saludoValidar).toBe(
       `Hola ${nombreValidar}, Bienvenido a Clase de Testing`
     );
-    expect(saludoValidar).not.toBe(
-      `Hola ${nombreValidar}`
-    );
+    expect(saludoValidar).not.toBe(`Hola ${nombreValidar}`);
     expect(saludoValidar).toContain("Clase");
     expect(saludoValidar).toContain(nombreValidar);
-        expect(saludoValidar).not.toContain("Yudi");
+    expect(saludoValidar).not.toContain("Yudi");
+  });
+
+  //----------Arrays-------------------//
+  test("validar el return del id partiendo de un id de ref", () => {
+    let id = 4;
+
+    // traerme lo que tiene la funcion
+    const usersFilterFuntion = userRegister(id);
+    // posible salida que debo comparar
+    const userComparar = arraysdataUser.find((u) => u.id === 2);
+
+    // validacion - expect
+
+    expect(usersFilterFuntion).not.toEqual(userComparar);
+    expect(usersFilterFuntion).not.toEqual(arraysdataUser[3]);
+
+    // si el usuario no esxiste
+    id = 10;
+    const usersFilterFuntion2 = userRegister(id);
+    expect(usersFilterFuntion2).toEqual(undefined);
+  });
+
+  //---------------Promesas-------------------//
+  // test('validar la promesa encuentre a el usuario correspondiente por un id', done  => {
+  //     let id = 5;
+
+  //     // posible salida que debo comparar
+  //     const userComparar = arraysdataUser.find((u) => u.id === id);
+
+  //     getPromise(id).then( (res) => {
+  //       expect(res).toEqual(userComparar)
+  //       done();
+  //     })
+  //  })
+
+  //----------------peticiones api / async await------------------//
+  test("validar que lo que me retorna la api en imagen correponda de tipo hhtp", async () => {
+    const url = await getApi();
+    console.log(url);
+    expect(typeof url).toBe("string");
+    expect(url.includes("https://")).toBe(true);
+    expect(url.includes("https://fakestoreapi.com/img/")).toBe(true);
   });
 });
